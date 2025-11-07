@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import RegisterUser from "./components/employeePortal/employeeRegister.js"
+import RegisterUser from "./employeeRegister.js"
 import "../css.css"
 
 export default function EmployeePortal() {
