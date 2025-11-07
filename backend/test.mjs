@@ -27,6 +27,7 @@ async function testDbConnection() {
     const name = "Mongodb connection:";
     const connectionString = process.env.ATLAS_URI
     console.log(process.env.ATLAS_URI)
+    console.log(connectionString)
     if (!connectionString) {
         pushResult(name, false, "ATLAS_URI not set");
         return;
