@@ -2,14 +2,14 @@ import React from "react";
 import logo from "../logo.svg"
 import "bootstrap/dist/css/bootstrap.css";
 import { NavLink } from "react-router-dom";
-import jwt from "jsonwebtoken";
+import jwt_decode from "jwt-decode";
 export default function Navbar() {
     let userRole = null;
 
     try {
         const token = localStorage.getItem("token");
         if (token) {
-            const decoded = jwt.decode(token);
+            const decoded = jwt_decode(token);
             userRole = decoded.role;
         }
     } catch (err) {
