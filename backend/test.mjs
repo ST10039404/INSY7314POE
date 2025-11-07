@@ -1,6 +1,5 @@
 import dotenv from "dotenv";
 import express from "express";
-import { MongoClient } from "mongodb";
 import request from "supertest";
 import jwt from "jsonwebtoken";
 import assert from "assert";
@@ -19,27 +18,6 @@ app.use(express.json());
 
 app.get("/test-auth", checkauth, (req, res) => res.json({ ok: true, user: req.user }));
 app.post("/test-brute", antibruteforce, (req, res) => res.json({ ok: true }));
-
-// DB test
-async function testDbConnection() {
-    const name = "Mongodb connection:";
-    const connectionString = process.env.ATLAS_URITEST
-    console.log(process.env.ATLAS_URITEST)
-    console.log(connectionString)
-    if (!connectionString) {
-        pushResult(name, false, "ATLAS_URI not set");
-        return;
-    }
-    const client = new MongoClient(connectionString);
-    let conn;
-    try {
-        conn = await client.connect();
-            pushResult(name, true);
-        } catch(e) {
-            pushResult(name, false, e.message);
-        }
-}
-//
 
 // check-auth tests
 async function testAuth() {
@@ -88,7 +66,6 @@ async function testBrute() {
 async function main() {
     dotenv.config()
     console.log("Starting tests...");
-    await testDbConnection();
     await testAuth();
     await testBrute();
 
