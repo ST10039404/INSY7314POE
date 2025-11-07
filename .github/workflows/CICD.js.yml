@@ -101,7 +101,7 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          working-directory: ./backend
+          args: ./backend
           command: test
 
       # Frontend scan
@@ -110,5 +110,5 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          working-directory: ./frontend
+          args: ./frontend
           command: test
