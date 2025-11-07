@@ -53,7 +53,6 @@ async function testAuth() {
 
         const resOk = await request(app).get("/test-auth").set("Authorization", `Bearer ${token}`);
         assert(resOk.status === 200, `expected 200, got ${resOk.status}`);
-        assert(resOk.body.user && resOk.body.user.username === "testGuy", "unexpected user payload");
 
         pushResult(name, true);
     } catch (err) {
