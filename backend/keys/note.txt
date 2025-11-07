@@ -1,0 +1,3 @@
+The reason for the orig keys was because i wanted a copy of my originally used keys, then i made a second pair for testing which is a non mkcerted version of the current certificate and privatekey.
+
+I've left it there as some evidence of me using mkcert for the ssl.
