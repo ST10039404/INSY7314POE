@@ -2,4 +2,4 @@
 
  GitHub Repo for DevOps
 
-Run the app using 
+Run the app using the start-app.bat file
