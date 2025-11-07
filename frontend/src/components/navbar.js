@@ -2,7 +2,7 @@ import React from "react";
 import logo from "../logo.svg"
 import "bootstrap/dist/css/bootstrap.css";
 import { NavLink } from "react-router-dom";
-import jwt_decode from "jwt-decode";
+import { jwt_decode } from "jwt-decode";
 export default function Navbar() {
     let userRole = null;
 
