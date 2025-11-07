@@ -90,8 +90,8 @@ jobs:
             -Dsonar.sources=.
 
   snyk:
+    name: Snyk scan
     runs-on: ubuntu-latest
-    needs: build  # only runs after build job finishes
     steps:
       - uses: actions/checkout@v4
 
