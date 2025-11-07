@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import RegisterUser from "./components/employeePortal/employeeRegister"
-import "./css.css"
+import "../css.css"
 
 export default function EmployeePortal() {
     const [activeSection, setActiveSection] = useState("register");
