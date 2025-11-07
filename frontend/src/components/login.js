@@ -21,7 +21,7 @@ export default function Login() {
 
         e.preventDefault();
 
-        const newPerson = { ...form };
+        const newPerson = { ...form,  };
 
         const response = await fetch("https://localhost:3001/user/login", {
             method: "POST",
@@ -37,7 +37,6 @@ export default function Login() {
 
         const data = await response.json();
         const { token, username } = data;
-        console.log(username + " " + token)
 
         localStorage.setItem("jwt", token);
         localStorage.setItem("username", username);
