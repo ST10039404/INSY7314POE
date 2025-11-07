@@ -12,17 +12,17 @@ import { checkauth, empRole } from "../check-auth.mjs";
 const router = express.Router();
 
 const antibruteforce = rateLimit({
-  store: new MemoryStore(),     
-  windowMs: 15 * 60 * 1000,     
-  limit: 10,                     
-  message: {                    
-    message: 'Too many login attempts. Please try again later.',
-    retryAfter: 'Retry-After header set'
-  },
-  standardHeaders: true,        
-  legacyHeaders: false,
-  delayAfter: 3,                
-  delayMs: (hits) => Math.min(hits * 1000, 15 * 60 * 1000)
+    store: new MemoryStore(),     
+    windowMs: 15 * 60 * 1000,     
+    limit: 10,                     
+    message: {                    
+        message: 'Too many login attempts. Please try again later.',
+        retryAfter: 'Retry-After header set'
+    },
+    standardHeaders: true,        
+    legacyHeaders: false,
+    delayAfter: 3,                
+    delayMs: (hits) => Math.min(hits * 1000, 15 * 60 * 1000)
 });
 
 const iterations = Number(process.env.PBKDF2_Iterations);
@@ -116,4 +116,5 @@ router.post("/login", antibruteforce, async (req, res) => {
         }
 });
 
+export { antibruteforce }
 export default router;
