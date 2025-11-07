@@ -1,5 +1,4 @@
 import dotenv from "dotenv";
-
 import express from "express";
 import { MongoClient } from "mongodb";
 import request from "supertest";
@@ -87,6 +86,7 @@ async function testBrute() {
 
 // Driver
 async function main() {
+    dotenv.config()
     console.log("Starting tests...");
     await testDbConnection();
     await testAuth();
