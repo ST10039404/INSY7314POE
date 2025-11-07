@@ -7,8 +7,8 @@ import request from "supertest";
 import jwt from "jsonwebtoken";
 import assert from "assert";
 
-import { checkauth } from "../check-auth.mjs";
-import { antibruteforce } from "../user.mjs";
+import { checkauth } from "./check-auth.mjs";
+import { antibruteforce } from "./routes/user.mjs";
 
 const RESULTS = [];
 const pushResult = (name, ok, errMsg = "") => {
