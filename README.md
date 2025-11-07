@@ -1,2 +1,5 @@
-# INSY7314 Assignment 2
+# INSY7314 Assignment POE
+
  GitHub Repo for DevOps
+
+Run the app using 

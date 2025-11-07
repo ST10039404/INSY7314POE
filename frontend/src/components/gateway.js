@@ -3,13 +3,12 @@ import { useNavigate } from "react-router";
 import './css.css'
 
 
-export default function PostList() {
+export default function PostPayment() {
         const [form, setForm] = useState({
-                username: "",
-                idNumber: "",
-                accNumber: "",
-                recipientAccNumber: "",
-                password: "",
+                accNumber: 0,
+                recipientAccNumber: 0,
+                currency: "",
+                paymentQuantity: "",
             });
 
             
@@ -24,12 +23,14 @@ export default function PostList() {
     async function onSubmit(e) {
         e.preventDefault();
 
-        const newPerson = { ...form };
+        const token = localStorage.getItem("token");
+        const newPerson = {username: localStorage.getItem("username"), ...form };
 
         await fetch("https://localhost:3001/payment/post", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`,
             },
             body: JSON.stringify(newPerson),
         })
@@ -39,7 +40,7 @@ export default function PostList() {
             return;
         });
 
-        setForm({username: "", idNumber: 0, accNumber: 0, password: ""});
+        setForm({accNumber: 0, recipientAccNumber: 0, currency: "", paymentQuantity: ""});
         navigate("/");
     }
 
@@ -86,23 +87,23 @@ export default function PostList() {
                                     />
                                 </div>
                                 <div className="form-group">
-                                    <label htmlFor="username">Payment Currency</label>
+                                    <label htmlFor="currency">Payment Currency</label>
                                     <input
                                         type="text"
                                         className="form-control"
-                                        id="username"
-                                        value={form.username}
-                                        onChange={(e) => updateForm({ username: e.target.value })}
+                                        id="currency"
+                                        value={form.currency}
+                                        onChange={(e) => updateForm({ currency: e.target.value })}
                                     />
                                 </div>
                                 <div className="form-group">
-                                    <label htmlFor="password">Payment Quantity</label>
+                                    <label htmlFor="paymentQuantity">Payment Quantity</label>
                                     <input
                                     type="text"
                                     className="form-control"
-                                    id="password"
-                                    value={form.password}
-                                    onChange={(e) => updateForm({ password: e.target.value })}
+                                    id="paymentQuantity"
+                                    value={form.paymentQuantity}
+                                    onChange={(e) => updateForm({ paymentQuantity: e.target.value })}
                                     />
                                 </div>
 

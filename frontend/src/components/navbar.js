@@ -2,7 +2,20 @@ import React from "react";
 import logo from "../logo.svg"
 import "bootstrap/dist/css/bootstrap.css";
 import { NavLink } from "react-router-dom";
+import jwt from "jsonwebtoken";
 export default function Navbar() {
+    let userRole = null;
+
+    try {
+        const token = localStorage.getItem("token");
+        if (token) {
+            const decoded = jwt.decode(token);
+            userRole = decoded.role;
+        }
+    } catch (err) {
+        console.error("Failed to decode token:", err);
+    }
+
     return (
         <div>
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -11,15 +24,17 @@ export default function Navbar() {
                 </NavLink>
                 <div className="navbar" id="navbarSupportedContent">
                     <ul className="navbar-nav ml-auto">
-                        <NavLink className="nav-link" to="/register">
-                            Register
-                        </NavLink>
                         <NavLink className="nav-link" to="/login">
                             Login
                         </NavLink>
                         <NavLink className="nav-link" to="/gateway">
                             Gateway
                         </NavLink>
+                        {userRole === "employee" && (
+                            <NavLink className="nav-link" to="/employee">
+                                Employee Portal
+                            </NavLink>
+                        )}
                     </ul>
                 </div>
             </nav>
