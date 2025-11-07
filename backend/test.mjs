@@ -26,6 +26,7 @@ app.post("/test-brute", antibruteforce, (req, res) => res.json({ ok: true }));
 async function testDbConnection() {
     const name = "Mongodb connection:";
     const connectionString = process.env.ATLAS_URI
+    console.log(process.env.ATLAS_URI)
     if (!connectionString) {
         pushResult(name, false, "ATLAS_URI not set");
         return;
