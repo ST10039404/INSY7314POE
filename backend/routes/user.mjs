@@ -23,36 +23,14 @@ const antibruteforce = rateLimit({
     delayMs: (hits) => Math.min(hits * 1000, 15 * 60 * 1000)
 });
 
-
-// const iterations = Number(process.env.PBKDF2_Iterations);
-// const keylen = Number(process.env.PBKDF2_Keylen);
-// const digest = process.env.PBKDF2_Digest;
-// const hmackey = process.env.HMACKey;
-
-
-const passwordStuff = async (password) => {
-    
-    // const salt = crypto.randomBytes(16).toString("hex");
-    // const hash = crypto.createHmac("sha256", hmackey).update(password).digest("hex");
-    // const passwordEncrypted = await crypto.pbkdf2(Buffer.from(hash, "hex"), Buffer.from(salt, "hex"), iterations, keylen, digest);
-
-    // const passInfo = {salt: salt, password: passwordEncrypted, hash: hash};
-    // return passInfo;
-    
+const passwordStuff = async (password) => {    
     const saltRounds = 14;
     const hash = await bcrypt.hash(password, saltRounds);
     return hash;
 };
 
 const passwordCheck = async(password, user) => {
-    
-    // const hashCheck = crypto.createHmac("sha256", hmackey).update(password).digest("hex");
-    // const a = Buffer.from(await crypto.pbkdf2(Buffer.from(hashCheck, "hex"), Buffer.from(user.salt, "hex"), iterations, keylen, digest))
-    // const b = Buffer.from(user.password)
-    // if (a.length !== b.length) return false;
-    // return crypto.timingSafeEqual(a, b)
-    
-   return await bcrypt.compare(password, user.hash);
+    return await bcrypt.compare(password, user.hash);
 };
 
 /*
@@ -110,8 +88,8 @@ router.post("/login", antibruteforce, async (req, res) => {
     const { username, accountNumber, password } = req.body;
 
     try {
-        const collection = await db.collection("users");
-        const user = await collection.findOne({ accountNumber });
+        const collection = db.collection("users");
+        const user = await collection.findOne({ username, accountNumber });
 
         if (!user) {
             return res.status(401).json({ message: "Authentication failed" });
@@ -126,7 +104,7 @@ router.post("/login", antibruteforce, async (req, res) => {
     const token = jwt.sign({username: user.username, accountnumber: user.accountnumber, role: user.role},process.env.JWTSECRET,{expiresIn:"1h"});
     res.status(200).json({ message: "Authentication successful", token: token});
     }
-        } catch (error) {
+        } catch {
             res.status(500).json({ message: "Login failed" });
         }
 });
@@ -154,8 +132,6 @@ router.get("/:id", async (req, res) => {
     let collection = await db.collection("users");
     let query = {_id: new ObjectId(req.params.id)};
     let user = await collection.findOne(query);
-
-    const token = jwt.sign({username: user.username, accountnumber: user.accountnumber, role: user.role},process.env.JWTSECRET,{expiresIn:"1h"});
 
     if (!user) res.status(404).send({
         message: "User not found"
