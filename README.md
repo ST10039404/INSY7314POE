@@ -7,3 +7,5 @@ Run the app using the start-app.bat file for the dev mode, allowing you to see t
 in the dev users tab you may login to a given account which will show its username in the top right
 
 do note it may take a second for the backend to start
+
+ive added a production bat to start the production version aswell
