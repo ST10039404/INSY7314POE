@@ -3,9 +3,7 @@ import jwt from "jsonwebtoken";
 import assert from "assert";
 import app from "./server.mjs";
 import { antibruteforce } from "./routes/user.mjs";
-
-// import express from "express";
-// import { checkauth } from "./check-auth.mjs";
+import { checkauth } from "./check-auth.mjs";
 
 const RESULTS = [];
 const pushResult = (name, ok, errMsg = "") => {

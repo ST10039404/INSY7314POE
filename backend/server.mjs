@@ -44,6 +44,13 @@ app.use(express.json());
 app.use("/payment", payments);
 app.use("/user", users);
 
+//Static frontend files
+app.use(express.static(path.resolve("../frontend/build")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve("../frontend/build/index.html"));
+});
+
 // Create server
 let server = https.createServer (options, app)
 console.log(PORT)

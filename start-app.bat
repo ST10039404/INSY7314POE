@@ -4,7 +4,7 @@ start cmd /k "node server.mjs"
 cd ..\frontend
 start cmd /k "npm start"
 
-echo Waiting for backend to start...
+echo Waiting for backend to start, then opening development server
 
 :waitloop
 powershell -NoProfile -Command "try { Invoke-WebRequest -Uri 'https://localhost:3001/' -UseBasicParsing -TimeoutSec 1 -SkipCertificateCheck | Out-Null; exit 0 } catch { exit 1 }"

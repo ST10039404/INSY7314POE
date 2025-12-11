@@ -152,7 +152,7 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          args: ./frontend
+          args: ./frontend --prod
           command: test
 
   
