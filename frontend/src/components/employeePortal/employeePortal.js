@@ -1,17 +1,22 @@
 import React, { useState } from "react";
 import RegisterUser from "./employeeRegister.js"
+import PaymentList from "./employeeViewPayments.js"
 import "../css.css"
 
 export default function EmployeePortal() {
     const [activeSection, setActiveSection] = useState("register");
 
     function renderSection() {
-        
+
         switch(activeSection) {
             case "register":
                 return <RegisterUser />;
+            case "payments":
+                return <PaymentList />;
             default:
-                return null; //Home page
+                return <div>
+                        No home page for employees
+                        </div>; //Home page
         }
     }
 
@@ -23,6 +28,9 @@ export default function EmployeePortal() {
             </button>
             <button onClick={() => setActiveSection("register")}>
                 Register User
+            </button>
+            <button onClick={() => setActiveSection("payments")}>
+                View payments
             </button>
             {renderSection()}
         </div>

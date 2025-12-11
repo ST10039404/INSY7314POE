@@ -9,3 +9,5 @@ test('renders the navbar logo', () => {
     </MemoryRouter>
   );
 });
+
+//maybe test the input output login xyz?

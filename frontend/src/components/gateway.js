@@ -1,20 +1,23 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
+import { jwtDecode } from "jwt-decode";
 import './css.css'
 
 
 export default function PostPayment() {
         const [form, setForm] = useState({
-                accNumber: 0,
-                recipientAccNumber: 0,
-                currency: "",
+                recipientName: "",
+                recipientAccNumber: "",
+                paymentCurrency: "",
                 paymentQuantity: "",
+                provider: "",
+                SWIFTCode: ""
             });
 
             
     const navigate = useNavigate();
 
-            function updateForm(value) {
+    function updateForm(value) {
         return setForm((prev) => {
             return { ...prev, ...value };
         });
@@ -24,7 +27,8 @@ export default function PostPayment() {
         e.preventDefault();
 
         const token = localStorage.getItem("token");
-        const newPerson = {username: localStorage.getItem("username"), ...form };
+        const decoded = jwtDecode(token);
+        const newPayment = {username: decoded.username, accountNumber: decoded.accountnumber, ...form };
 
         await fetch("https://localhost:3001/payment/post", {
             method: "POST",
@@ -32,7 +36,7 @@ export default function PostPayment() {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${token}`,
             },
-            body: JSON.stringify(newPerson),
+            body: JSON.stringify(newPayment),
         })
         .catch(error => {
             console.log(error);
@@ -40,40 +44,34 @@ export default function PostPayment() {
             return;
         });
 
-        setForm({accNumber: 0, recipientAccNumber: 0, currency: "", paymentQuantity: ""});
+        setForm({
+                recipientName: "",
+                recipientAccNumber: "",
+                paymentCurrency: "",
+                paymentQuantity: "",
+                provider: "",
+                SWIFTCode: ""
+            });
         navigate("/");
     }
 
-        //function maps post to table
-        /*
-        function PostList() {
-            return posts.map((post) => {
-                return (
-                    <Post
-                        post={post}
-                        deletePost={() => deletePost(post._id)}
-                        key={post._id}
-                    />
-                )
-            });
-        }
-            */
+        
 
         return (
             <div>
                 <div>
                     <div className="centre-the-div">
                         <div>
-                            <center><h3>INSY Payment Gateway W.I.P</h3></center>
+                            <center><h3>Payment Gateway</h3></center>
                             <form onSubmit={onSubmit}>
                                 <div className="form-group">
-                                    <label htmlFor="accNumber">Account Number</label>
+                                    <label htmlFor="recipientName">Recipient Name</label>
                                     <input
                                     type="text"
                                     className="form-control"
-                                    id="accNumber"
-                                    value={form.accNumber}
-                                    onChange={(e) => updateForm({ accNumber: e.target.value })}
+                                    id="recipientName"
+                                    value={form.recipientName}
+                                    onChange={(e) => updateForm({ recipientName: e.target.value })}
                                     />
                                 </div>
                                 <div className="form-group">
@@ -87,13 +85,13 @@ export default function PostPayment() {
                                     />
                                 </div>
                                 <div className="form-group">
-                                    <label htmlFor="currency">Payment Currency</label>
+                                    <label htmlFor="paymentCurrency">Payment Currency</label>
                                     <input
                                         type="text"
                                         className="form-control"
-                                        id="currency"
-                                        value={form.currency}
-                                        onChange={(e) => updateForm({ currency: e.target.value })}
+                                        id="paymentCurrency"
+                                        value={form.paymentCurrency}
+                                        onChange={(e) => updateForm({ paymentCurrency: e.target.value })}
                                     />
                                 </div>
                                 <div className="form-group">
@@ -106,7 +104,26 @@ export default function PostPayment() {
                                     onChange={(e) => updateForm({ paymentQuantity: e.target.value })}
                                     />
                                 </div>
-
+                                <div className="form-group">
+                                    <label htmlFor="provider">Provider</label>
+                                    <input
+                                    type="text"
+                                    className="form-control"
+                                    id="provider"
+                                    value={form.provider}
+                                    onChange={(e) => updateForm({ provider: e.target.value })}
+                                    />
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="SWIFTCode">SWIFT Code</label>
+                                    <input
+                                    type="text"
+                                    className="form-control"
+                                    id="SWIFTCode"
+                                    value={form.SWIFTCode}
+                                    onChange={(e) => updateForm({ SWIFTCode: e.target.value })}
+                                    />
+                                </div>
                                 <div className="form-group centre-the-div">
                                     <input
                                         type="submit"

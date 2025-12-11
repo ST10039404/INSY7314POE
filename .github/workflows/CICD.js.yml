@@ -35,6 +35,10 @@ jobs:
       working-directory: ./backend
       run: npm ci
 
+    - name: NPM Audit
+      working-directory: ./backend
+      run: npm audit --audit-level=moderate
+
     - name: Build backend
       working-directory: ./backend
       run: npm run build

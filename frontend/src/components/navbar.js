@@ -1,20 +1,32 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import logo from "../logo.svg"
 import "bootstrap/dist/css/bootstrap.css";
 import { NavLink } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 export default function Navbar() {
-    let userRole = null;
 
-    try {
-        const token = localStorage.getItem("token");
-        if (token) {
+    const [user, setUser] = useState(null);
+
+    function loadUserFromToken() {
+        try {
+            const token = localStorage.getItem("token");
+            if (!token) return setUser(null);
             const decoded = jwtDecode(token);
-            userRole = decoded.role;
+            setUser(decoded);
+        } catch {
+            setUser(null);
         }
-    } catch (err) {
-        console.error("Failed to decode token:", err);
     }
+
+    useEffect(() => {
+        loadUserFromToken();
+
+        window.addEventListener("token-changed", loadUserFromToken);
+
+        return () => {
+            window.removeEventListener("token-changed", loadUserFromToken);
+        };
+    }, []);
 
     return (
         <div>
@@ -30,13 +42,28 @@ export default function Navbar() {
                         <NavLink className="nav-link" to="/gateway">
                             Gateway
                         </NavLink>
-                        {userRole === "employee" && (
+                        {user && user.role === "employee" && (
                             <NavLink className="nav-link" to="/employee">
                                 Employee Portal
                             </NavLink>
                         )}
+                        <NavLink className ="nav-link" to="/devUsers">
+                            Dev Users
+                        </NavLink>
                     </ul>
                 </div>
+
+                {/* Right section — forced to far right */}
+                {user && (
+                    <>
+                    <div className="ms-auto navbar-text" style={{ fontWeight: "bold", background: "yellow" }}>
+                        {user.username}
+                    </div>
+                    <div>
+
+                    </div>
+                    </>
+                )}
             </nav>
         </div>
     );

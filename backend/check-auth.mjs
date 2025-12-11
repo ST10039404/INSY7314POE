@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 
+//Checks if token is valid before proceeding
 const checkauth=(req,res,next) =>
 {
     try{
@@ -16,7 +17,8 @@ const checkauth=(req,res,next) =>
     }
 }
 
-const empRole=(req, res, next) =>
+//Modified Check-Auth for employees
+const checkAuthEmp=(req, res, next) =>
 {
     try{
         const token = req.headers.authorization.split(" ")[1];
@@ -42,4 +44,4 @@ const empRole=(req, res, next) =>
     }
 }
 
-export { checkauth, empRole };
+export { checkauth, checkAuthEmp };

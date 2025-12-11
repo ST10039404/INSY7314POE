@@ -4,7 +4,7 @@ import "./css.css"
 export default function Login() {
     const [form, setForm] = useState({
         username: "",
-        accNumber: "",
+        accountNumber: "",
         password: "",
     });
     const navigate = useNavigate();
@@ -36,11 +36,11 @@ export default function Login() {
         });
 
         const data = await response.json();
-        const { token, username } = data;
+        const { token } = data;
 
-        localStorage.setItem("jwt", token);
-        localStorage.setItem("username", username);
-
+        localStorage.setItem("token", token);
+        window.dispatchEvent(new Event("token-changed"));
+        window.alert("Succesfully logged in! Welcome " + form.username)
         setForm({ username: "", password: ""});
         navigate("/");
     }
@@ -62,13 +62,13 @@ export default function Login() {
                             />
                         </div>
                         <div className="form-group">
-                            <label htmlFor="accNumber">Account Number</label>
+                            <label htmlFor="accountNumber">Account Number</label>
                             <input
                             type="text"
                             className="form-control"
-                            id="accNumber"
-                            value={form.accNumber}
-                            onChange={(e) => updateForm({ accNumber: e.target.value })}
+                            id="accountNumber"
+                            value={form.accountNumber}
+                            onChange={(e) => updateForm({ accountNumber: e.target.value })}
                             />
                         </div>
                         <div className="form-group">

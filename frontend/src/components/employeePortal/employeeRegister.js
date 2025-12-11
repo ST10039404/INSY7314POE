@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router";
 import "../css.css"
 
 export default function Register() {
@@ -7,11 +6,9 @@ export default function Register() {
         username: "",
         idNumber: "",
         role: "",
-        accNumber: "",
+        accountNumber: "",
         password: "",
     });
-
-    const navigate = useNavigate();
 
     function updateForm(value) {
         return setForm((prev) => {
@@ -39,8 +36,8 @@ export default function Register() {
             return;
         });
 
-        setForm({username: "", idNumber: 0, accNumber: 0, password: ""});
-        navigate("/");
+        setForm({username: "", idNumber: 0, role: "",  accountNumber: 0, password: ""});
+        
     }
 
     return (
@@ -70,13 +67,13 @@ export default function Register() {
                             />
                         </div>
                         <div className="form-group">
-                            <label htmlFor="accNumber">Account Number</label>
+                            <label htmlFor="accountNumber">Account Number</label>
                             <input
                                 type="text"
                                 className="form-control"
-                                id="accNumber"
-                                value={form.accNumber}
-                                onChange={(e) => updateForm({ accNumber: e.target.value })}
+                                id="accountNumber"
+                                value={form.accountNumber}
+                                onChange={(e) => updateForm({ accountNumber: e.target.value })}
                             />
                         </div>
                         <div className="form-group">

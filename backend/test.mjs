@@ -61,11 +61,30 @@ async function testBrute() {
 }
 //
 
+//helmet test
+async function testHelmet() {
+    const name = "Helmet security headers";
+    try {
+        const res = await request(app).get("/helmet-test");
+
+        assert(res.headers["x-dns-prefetch-control"] === "off");
+        assert(res.headers["x-frame-options"] === "SAMEORIGIN");
+        assert(res.headers["x-xss-protection"] === "0");
+        assert(res.headers["x-content-type-options"] === "nosniff");
+
+        pushResult(name, true);
+    } catch (err) {
+        pushResult(name, false, err.message);
+    }
+}
+
+
 // Driver
 async function main() {
     console.log("Starting tests...");
     await testAuth();
     await testBrute();
+    await testHelmet();
 
     console.log("\n--- SUMMARY ---");
     let failed = 0;
