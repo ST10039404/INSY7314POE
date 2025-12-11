@@ -12,22 +12,17 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [20.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
-    steps:
-    - uses: actions/checkout@v4
-    
       #Backend
   backend:
     name: Backend
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v4
+      with: 
+        fetch-depth: 1
 
     - name: Setup Node.js for backend
       uses: actions/setup-node@v4
@@ -72,7 +67,11 @@ jobs:
   docker:
     name: Docker for backend
     runs-on: ubuntu-latest
+    needs: backend
     steps:
+    - uses: actions/checkout@v4
+      with: 
+        fetch-depth: 1
 
     - name: Build Docker image for backend
       run: docker build -t insy-backend ./backend
@@ -96,7 +95,9 @@ jobs:
     name: Frontend
     runs-on: ubuntu-latest
     steps:
-
+    - uses: actions/checkout@v4
+      with: 
+        fetch-depth: 1
 
     - name: Setup Node.js for frontend
       uses: actions/setup-node@v4
@@ -128,7 +129,7 @@ jobs:
   sonarcloud:
     name: Run SonarCloud Scan
     runs-on: ubuntu-latest
-
+    
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
