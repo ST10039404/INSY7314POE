@@ -47,16 +47,19 @@ export default function Navbar() {
                                 Employee Portal
                             </NavLink>
                         )}
-                        <NavLink className ="nav-link" to="/devUsers">
+                        { process.env.NODE_ENV === "development" &&(
+                            <NavLink className ="nav-link" to="/devUsers">
                             Dev Users
                         </NavLink>
+                        )
+                        }
                     </ul>
                 </div>
 
                 {/* Right section — forced to far right */}
                 {user && (
                     <>
-                    <div className="ms-auto navbar-text" style={{ fontWeight: "bold", background: "yellow" }}>
+                    <div className="ms-auto navbar-text" style={{ fontWeight: "bold" }}>
                         {user.username}
                     </div>
                     <div>
