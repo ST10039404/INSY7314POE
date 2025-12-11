@@ -9,4 +9,3 @@ in the dev users tab you may login to a given account which will show its userna
 do note it may take a second for the backend to start
 
 ive added a production bat to start the production version aswell
-
