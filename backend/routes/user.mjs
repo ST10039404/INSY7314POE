@@ -6,6 +6,8 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import rateLimit, { MemoryStore } from "express-rate-limit"
 import { checkAuthEmp } from "../check-auth.mjs";
+import fs from "fs/promises";
+import path from "path";
 
 const router = express.Router();
 
@@ -151,14 +153,11 @@ router.post("/reset", async (req, res) => {
         payments.deleteMany({})
     ]);
 
-    const seedUsers = [
-    { accountNumber: "1001", username: "user1", idNumber: "9001010001", role: "user", password: "password1" },
-    { accountNumber: "1002", username: "user2", idNumber: "9001020002", role: "user", password: "password2" },
-    { accountNumber: "1003", username: "user3", idNumber: "9001030003", role: "user", password: "password3" },
-    { accountNumber: "2001", username: "employee1", idNumber: "9002010001", role: "employee", password: "password4" },
-    { accountNumber: "2002", username: "employee2", idNumber: "9002020002", role: "employee", password: "password5" },
-    { accountNumber: "2003", username: "employee3", idNumber: "9002030003", role: "employee", password: "password6" },
-    ];
+    const usersFile = path.join(process.cwd(), "seeds", "users.json");
+    const paymentsFile = path.join(process.cwd(), "seeds", "payments.json");
+
+    const seedUsers = JSON.parse(await fs.readFile(usersFile, "utf-8"));
+    const seedPayments = JSON.parse(await fs.readFile(paymentsFile, "utf-8"));
 
     const usersWithHash = await Promise.all(
         seedUsers.map(async (user) => {
@@ -174,120 +173,6 @@ router.post("/reset", async (req, res) => {
     );
 
     await users.insertMany(usersWithHash);
-
-    const seedPayments =
-        [
-            {
-                username: "user1",
-                accountNumber: "1001",
-                recipientName: "Michael Turner",
-            recipientAccountNumber: "4829110045",
-                paymentCurrency: "USD",
-                paymentQuantity: 250,
-                provider: "Bank of America",
-                SWIFTCode: "BOFAUS3N",
-                State: "Waiting"
-            },
-            {
-                username: "user2",
-                accountNumber: "1002",
-                recipientName: "Sarah Jacobs",
-                recipientAccountNumber: "9831102290",
-                paymentCurrency: "EUR",
-                paymentQuantity: 500,
-                provider: "Deutsche Bank",
-                SWIFTCode: "DEUTDEFF",
-                State: "Waiting"
-            },
-            {
-                username: "user3",
-                accountNumber: "1003",
-                recipientName: "Leonard Price",
-                recipientAccountNumber: "7712285590",
-                paymentCurrency: "ZAR",
-                paymentQuantity: 1200,
-                provider: "Standard Bank",
-                SWIFTCode: "SBZAZAJJ",
-                State: "Waiting"
-            },
-            {
-                username: "user4",
-                accountNumber: "1004",
-                recipientName: "Emily Carter",
-                recipientAccountNumber: "6623459087",
-                paymentCurrency: "GBP",
-                paymentQuantity: 95,
-                provider: "Barclays",
-                SWIFTCode: "BARCGB22",
-                State: "Waiting"
-            },
-            {
-                username: "user5",
-                accountNumber: "1005",
-                recipientName: "Jonathan Blake",
-                recipientAccountNumber: "5502981776",
-                paymentCurrency: "AUD",
-                paymentQuantity: 300,
-                provider: "Commonwealth Bank",
-                SWIFTCode: "CTBAAU2S",
-                State: "Waiting"
-            },
-            {
-                username: "user6",
-                accountNumber: "1006",
-                recipientName: "Oliver Grant",
-                recipientAccountNumber: "9038834421",
-                paymentCurrency: "USD",
-                paymentQuantity: 60,
-                provider: "Chase",
-                SWIFTCode: "CHASUS33",
-                State: "Waiting"
-            },
-            {
-                username: "user1",
-                accountNumber: "1001",
-                recipientName: "Pieter Van Wyk",
-                recipientAccountNumber: "4420011199",
-                paymentCurrency: "ZAR",
-                paymentQuantity: 780,
-                provider: "FNB",
-                SWIFTCode: "FIRNZAJJ",
-                State: "Waiting"
-            },
-            {
-                username: "user4",
-                accountNumber: "1004",
-                recipientName: "Helena Morris",
-                recipientAccountNumber: "2893407710",
-                paymentCurrency: "EUR",
-                paymentQuantity: 110,
-                provider: "ING",
-                SWIFTCode: "INGBNL2A",
-                State: "Waiting"
-            },
-            {
-                username: "user2",
-                accountNumber: "1002",
-                recipientName: "Marcus Reid",
-                recipientAccountNumber: "7788223901",
-                paymentCurrency: "USD",
-                paymentQuantity: 410,
-                provider: "Wells Fargo",
-                SWIFTCode: "WFBIUS6S",
-                State: "Accepted"
-            },
-            {
-                username: "user3",
-                accountNumber: "1003",
-                recipientName: "Alicia Gomez",
-                recipientAccountNumber: "6619082334",
-                paymentCurrency: "ZAR",
-                paymentQuantity: 1500,
-                provider: "Nedbank",
-                SWIFTCode: "NEDSZAJJ",
-                State: "Denied"
-            }
-        ]
 
     await payments.insertMany(seedPayments)
 

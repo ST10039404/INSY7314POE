@@ -1,0 +1,44 @@
+[
+    {
+        "accountNumber": "1001",
+        "username": "user1",
+        "idNumber": "9001010001",
+        "role": "user",
+        "password": "password1"
+    },
+    {
+        "accountNumber": "1002",
+        "username": "user2",
+        "idNumber": "9001020002",
+        "role": "user",
+        "password": "password2"
+    },
+    {
+        "accountNumber": "1003",
+        "username": "user3",
+        "idNumber": "9001030003",
+        "role": "user",
+        "password": "password3"
+    },
+    {
+        "accountNumber": "2001",
+        "username": "employee1",
+        "idNumber": "9002010001",
+        "role": "employee",
+        "password": "password4"
+    },
+    {
+        "accountNumber": "2002",
+        "username": "employee2",
+        "idNumber": "9002020002",
+        "role": "employee",
+        "password": "password5"
+    },
+    {
+        "accountNumber": "2003",
+        "username": "employee3",
+        "idNumber": "9002030003",
+        "role": "employee",
+        "password": "password6"
+    }
+]
