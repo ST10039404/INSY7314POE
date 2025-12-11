@@ -1,6 +1,6 @@
 @echo off
 cd backend
-start cmd /k "node server.mjs"
+start cmd /k "npm run dev"
 cd ..\frontend
 start cmd /k "npm start"
 
