@@ -25,4 +25,5 @@ COPY --from=frontend-builder /app/frontend/build ./frontend/build
 EXPOSE 3001
 
 # Start backend server
-CMD ["node", "backend/server.mjs"]
+CMD ["npm", "run", "start", "--prefix", "backend"]
+
