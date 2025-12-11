@@ -35,6 +35,7 @@ app.use(express.json());
 app.use("/payment", payments);
 app.use("/user", users);
 
+if (process.env.NODE_ENV !== "test") {
 //Static frontend files
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -46,7 +47,6 @@ app.use((req, res) => {
 });
 
 // Create server
-if (process.env.NODE_ENV !== "test") {
   let server = https.createServer (options, app)
   console.log(PORT)
   server.listen(PORT, () => {
