@@ -1,5 +1,4 @@
 import jwt from "jsonwebtoken";
-import dotenv from "dotenv";
 
 //Checks if token is valid before proceeding
 const checkauth=(req,res,next) =>
@@ -9,7 +8,7 @@ const checkauth=(req,res,next) =>
         jwt.verify(token, process.env.JWTSECRET)
         next();
     }
-    catch(error)
+    catch
     {
         res.status(401).json({
             message: "Token is invalid"
