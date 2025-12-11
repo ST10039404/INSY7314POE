@@ -1,10 +1,11 @@
-import express from "express";
 import request from "supertest";
 import jwt from "jsonwebtoken";
 import assert from "assert";
-
-import { checkauth } from "./check-auth.mjs";
+import app from "./server.mjs";
 import { antibruteforce } from "./routes/user.mjs";
+
+// import express from "express";
+// import { checkauth } from "./check-auth.mjs";
 
 const RESULTS = [];
 const pushResult = (name, ok, errMsg = "") => {
@@ -12,11 +13,10 @@ const pushResult = (name, ok, errMsg = "") => {
     console.log(`${ok ? "✔ PASS" : "✖ FAIL"}: ${name}${errMsg ? " — " + errMsg : ""}`);
 };
 
-const app = express();
-app.use(express.json());
-
+// test routes
 app.get("/test-auth", checkauth, (req, res) => res.json({ ok: true, user: req.user }));
 app.post("/test-brute", antibruteforce, (req, res) => res.json({ ok: true }));
+app.get("/helmet-test", (req, res) => res.json({ ok: true }));
 
 // check-auth tests
 async function testAuth() {
