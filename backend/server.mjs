@@ -11,8 +11,6 @@ import { fileURLToPath } from "url";
 
 dotenv.config();
 
-console.log('ATLAS_URI:', process.env.ATLAS_URI); //Debugging if code is okay.
-
 const PORT = 3001; 
 const app = express();
 const options = {
@@ -43,7 +41,7 @@ const __dirname = path.dirname(__filename);
 
 app.use(express.static(path.join(__dirname, "../frontend/build")));
 
-app.get("*", (req, res) => {
+app.use((req, res) => {
   res.sendFile(path.join(__dirname, "../frontend/build/index.html"));
 });
 
