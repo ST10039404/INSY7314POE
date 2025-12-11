@@ -49,7 +49,6 @@ export default function DevUsers() {
 
             const usersData = await response.json();
             setUsers(usersData);
-
             if (usersData)
             {
                 localStorage.setItem("usersCache", JSON.stringify({
