@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "body-parser": "^2.2.1",
-    "jws": "^3.2.3"
-  }
-}
