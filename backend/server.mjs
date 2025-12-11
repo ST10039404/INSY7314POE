@@ -6,6 +6,8 @@ import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 import dotenv from "dotenv";
+import path from "path";
+import { fileURLToPath } from "url";
 
 dotenv.config();
 
@@ -31,35 +33,31 @@ app.use(helmet());
 // Express.json something?
 app.use(express.json());
 
-// This was ONCE a fix for something but no more.
-// app.use((req, res, next)=>
-// {
-// res.setHeader('Access-Control-Allow-Origin', '*');
-// res.setHeader('Access-Control-Allow-Headers',  '*');
-// res.setHeader('Access-Control-Allow-Methods', '*');
-// next();
-// })
-
 //Routes
 app.use("/payment", payments);
 app.use("/user", users);
 
 //Static frontend files
-app.use(express.static(path.resolve("../frontend/build")));
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+app.use(express.static(path.join(__dirname, "../frontend/build")));
 
 app.get("*", (req, res) => {
-  res.sendFile(path.resolve("../frontend/build/index.html"));
+  res.sendFile(path.join(__dirname, "../frontend/build/index.html"));
 });
 
 // Create server
-let server = https.createServer (options, app)
-console.log(PORT)
-server.listen(PORT, () => {
-  console.log(`HTTPS Server running on https://localhost:${PORT}`);
-});
+if (process.env.NODE_ENV !== "test") {
+  let server = https.createServer (options, app)
+  console.log(PORT)
+  server.listen(PORT, () => {
+    console.log(`HTTPS Server running on https://localhost:${PORT}`);
+  });
 
-server.on('error', (err) => {
-  console.error('Server error:', err);
-});
+  server.on('error', (err) => {
+    console.error('Server error:', err);
+  });
+}
 
 export default app;
