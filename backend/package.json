@@ -37,6 +37,6 @@
     "jws": "^3.2.3",
     "mongodb": "^6.20.0",
     "mongoose": "^8.19.0",
-    "rate-limit-redis": "^4.2.2"
+    "rate-limit-redis": "^4.2.3"
   }
 }
